@@ -571,6 +571,13 @@ public:
                                        bool bEpgBased,
                                        bool bLongMultiDaysFormat);
 
+  /*!
+   * @brief GUI support: Get the sortable prioirity integer.
+   * @return The result
+   */
+
+  int GetSortablePriority(){ return m_iSortablePriority; };
+
 private:
   CPVRTimerInfoTag(const CPVRTimerInfoTag& tag) = delete;
   CPVRTimerInfoTag& operator=(const CPVRTimerInfoTag& orig) = delete;
@@ -603,6 +610,7 @@ private:
       false; /*!< @brief Ignore start date and time clock. Record at 'Any Time' */
   bool m_bEndAnyTime = false; /*!< @brief Ignore end date and time clock. Record at 'Any Time' */
   int m_iPriority; /*!< @brief priority of the timer */
+  int m_iSortablePriority; /*!< @brief sortable priority of the timer */
   int m_iLifetime; /*!< @brief lifetime of the timer in days */
   int m_iMaxRecordings =
       0; /*!< @brief (optional) backend setting for maximum number of recordings to keep*/

@@ -54,6 +54,7 @@ public:
     m_cStructure->bEndAnyTime = false;
     m_cStructure->bFullTextEpgSearch = false;
     m_cStructure->iPriority = PVR_TIMER_VALUE_NOT_AVAILABLE;
+    m_cStructure->iSortablePriority = PVR_TIMER_VALUE_NOT_AVAILABLE;
     m_cStructure->iLifetime = PVR_TIMER_VALUE_NOT_AVAILABLE;
     m_cStructure->iMaxRecordings = PVR_TIMER_VALUE_NOT_AVAILABLE;
     m_cStructure->iRecordingGroup = 0;
@@ -89,6 +90,7 @@ public:
   /// | **Full text EPG search** | `bool` | @ref PVRTimer::SetFullTextEpgSearch "SetFullTextEpgSearch" | @ref PVRTimer::GetFullTextEpgSearch "GetFullTextEpgSearch" | *optional*
   /// | **Recording store directory** | `std::string` | @ref PVRTimer::SetDirectory "SetDirectory" | @ref PVRTimer::GetDirectory "GetDirectory" | *optional*
   /// | **Timer priority** | `int` | @ref PVRTimer::SetPriority "SetPriority" | @ref PVRTimer::GetPriority "GetPriority" | *optional*
+  /// | **Timer sortable priority** | `int` | @ref PVRTimer::SetSortablePriority "SetSortablePriority" | @ref PVRTimer::GetSortablePriority "GetSortablePriority" | *optional*
   /// | **Timer lifetime** | `int` | @ref PVRTimer::SetLifetime "SetLifetime" | @ref PVRTimer::GetLifetime "GetLifetime" | *optional*
   /// | **Max recordings** | `int` | @ref PVRTimer::SetMaxRecordings "SetMaxRecordings" | @ref PVRTimer::GetMaxRecordings "GetMaxRecordings" | *optional*
   /// | **Recording group** | `unsigned int` | @ref PVRTimer::SetRecordingGroup "SetRecordingGroup" | @ref PVRTimer::GetRecordingGroup "GetRecordingGroup" | *optional*
@@ -285,6 +287,16 @@ public:
 
   /// @brief To get with @ref SetPriority changed values.
   int GetPriority() const { return m_cStructure->iPriority; }
+
+  /// @brief **optional**\n
+  /// The sortable read-only priority of this timer.
+  ///
+  /// Values from highest (0) ascending to lowest
+  /// Addon does not need to support Kodi priorities
+  void SetSortablePriority(int priority) { m_cStructure->iSortablePriority = priority; }
+
+  /// @brief To get with @ref SetSortablePriority changed values.
+  int GetSortablePriority() const { return m_cStructure->iSortablePriority; }
 
   /// @brief **optional**\n
   /// Lifetime of recordings created by this timer.

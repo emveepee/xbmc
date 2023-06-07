@@ -43,6 +43,7 @@ CPVRTimerInfoTag::CPVRTimerInfoTag(bool bRadio /* = false */)
     m_iParentClientIndex(PVR_TIMER_NO_PARENT),
     m_iClientChannelUid(PVR_CHANNEL_INVALID_UID),
     m_iPriority(DEFAULT_RECORDING_PRIORITY),
+    m_iSortablePriority(DEFAULT_RECORDING_PRIORITY),
     m_iLifetime(DEFAULT_RECORDING_LIFETIME),
     m_iPreventDupEpisodes(DEFAULT_RECORDING_DUPLICATEHANDLING),
     m_bIsRadio(bRadio),
@@ -103,6 +104,7 @@ CPVRTimerInfoTag::CPVRTimerInfoTag(const PVR_TIMER& timer,
     m_bStartAnyTime(timer.bStartAnyTime),
     m_bEndAnyTime(timer.bEndAnyTime),
     m_iPriority(timer.iPriority),
+    m_iSortablePriority(timer.iSortablePriority),
     m_iLifetime(timer.iLifetime),
     m_iMaxRecordings(timer.iMaxRecordings),
     m_iWeekdays(timer.iWeekdays),
@@ -203,7 +205,8 @@ bool CPVRTimerInfoTag::operator==(const CPVRTimerInfoTag& right) const
           m_iRecordingGroup == right.m_iRecordingGroup && m_StartTime == right.m_StartTime &&
           m_StopTime == right.m_StopTime && m_bStartAnyTime == right.m_bStartAnyTime &&
           m_bEndAnyTime == right.m_bEndAnyTime && m_FirstDay == right.m_FirstDay &&
-          m_iWeekdays == right.m_iWeekdays && m_iPriority == right.m_iPriority &&
+          m_iWeekdays == right.m_iWeekdays &&
+          m_iPriority == right.m_iPriority && m_iSortablePriority == right.m_iSortablePriority &&
           m_iLifetime == right.m_iLifetime && m_iMaxRecordings == right.m_iMaxRecordings &&
           m_strFileNameAndPath == right.m_strFileNameAndPath && m_strTitle == right.m_strTitle &&
           m_strEpgSearchString == right.m_strEpgSearchString &&
@@ -249,6 +252,7 @@ void CPVRTimerInfoTag::FillAddonData(PVR_TIMER& timer) const
   timer.bFullTextEpgSearch = m_bFullTextEpgSearch;
   strncpy(timer.strDirectory, m_strDirectory.c_str(), sizeof(timer.strDirectory) - 1);
   timer.iPriority = m_iPriority;
+  timer.iSortablePriority = m_iSortablePriority;
   timer.iLifetime = m_iLifetime;
   timer.iMaxRecordings = m_iMaxRecordings;
   timer.iPreventDuplicateEpisodes = m_iPreventDupEpisodes;
@@ -301,6 +305,7 @@ void CPVRTimerInfoTag::Serialize(CVariant& value) const
   value["weekdays"] = weekdays;
 
   value["priority"] = m_iPriority;
+  value["sortablepriority"] = m_iSortablePriority;
   value["lifetime"] = m_iLifetime;
   value["title"] = m_strTitle;
   value["directory"] = m_strDirectory;
@@ -629,6 +634,7 @@ bool CPVRTimerInfoTag::UpdateEntry(const std::shared_ptr<CPVRTimerInfoTag>& tag)
   m_bEndAnyTime = tag->m_bEndAnyTime;
   m_FirstDay = tag->m_FirstDay;
   m_iPriority = tag->m_iPriority;
+  m_iSortablePriority = tag->m_iSortablePriority;
   m_iLifetime = tag->m_iLifetime;
   m_iMaxRecordings = tag->m_iMaxRecordings;
   m_state = tag->m_state;

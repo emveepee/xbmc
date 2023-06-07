@@ -14,6 +14,7 @@
 #include "pvr/addons/PVRClients.h"
 #include "pvr/epg/EpgSearchPath.h"
 #include "pvr/recordings/PVRRecordingsPath.h"
+#include "pvr/timers/PVRTimerInfoTag.h"
 #include "pvr/timers/PVRTimersPath.h"
 #include "settings/AdvancedSettings.h"
 #include "settings/Settings.h"
@@ -135,6 +136,19 @@ CGUIViewStateWindowPVRTimers::CGUIViewStateWindowPVRTimers(const int windowId,
                 LABEL_MASKS("%L", "", "%L", "")); // Filename, empty | Foldername, empty
   AddSortMethod(SortByDate, static_cast<SortAttribute>(sortAttributes), 552, // "Date"
                 LABEL_MASKS("%L", "%d", "%L", "%d")); // Filename, DateTime | Foldername, DateTime
+  for (auto item : items)
+  {
+    if (item->HasPVRTimerInfoTag())
+    {
+      if (item->GetPVRTimerInfoTag()->GetSortablePriority() >= 0)
+      {
+        AddSortMethod(SortByTimerRulesPriority, static_cast<SortAttribute>(sortAttributes),
+                      19082, // "Priority"
+                      LABEL_MASKS("%L", "%d", "%L", "")); // Filename, empty | Foldername, empty
+        break;
+      }
+    }
+  }
 
   // Default sorting
   SetSortMethod(SortByDate);

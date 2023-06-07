@@ -125,6 +125,7 @@ extern "C"
     time_t recordingTime;
     int iDuration;
     int iPriority;
+    int iSortablePriority;
     int iLifetime;
     int iGenreType;
     int iGenreSubType;

@@ -353,6 +353,7 @@ extern "C"
     char strDirectory[PVR_ADDON_URL_STRING_LENGTH];
     char strSummary[PVR_ADDON_DESC_STRING_LENGTH];
     int iPriority;
+    int iSortablePriority;
     int iLifetime;
     int iMaxRecordings;
     unsigned int iRecordingGroup;

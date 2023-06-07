@@ -93,6 +93,7 @@ CPVRRecording::CPVRRecording(const PVR_RECORDING& recording, unsigned int iClien
       recording.recordingTime +
       CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_iPVRTimeCorrection;
   m_iPriority = recording.iPriority;
+  m_iSortablePriority = recording.iSortablePriority;
   m_iLifetime = recording.iLifetime;
   // Deleted recording is placed at the root of the deleted view
   m_strDirectory = recording.bIsDeleted ? "" : recording.strDirectory;
@@ -156,7 +157,8 @@ bool CPVRRecording::operator==(const CPVRRecording& right) const
          (m_strRecordingId == right.m_strRecordingId && m_iClientId == right.m_iClientId &&
           m_strChannelName == right.m_strChannelName && m_recordingTime == right.m_recordingTime &&
           GetDuration() == right.GetDuration() && m_strPlotOutline == right.m_strPlotOutline &&
-          m_strPlot == right.m_strPlot && m_iPriority == right.m_iPriority &&
+          m_strPlot == right.m_strPlot &&
+          m_iPriority == right.m_iPriority && m_iSortablePriority == right.m_iSortablePriority &&
           m_iLifetime == right.m_iLifetime && m_strDirectory == right.m_strDirectory &&
           m_strFileNameAndPath == right.m_strFileNameAndPath && m_strTitle == right.m_strTitle &&
           m_strShowTitle == right.m_strShowTitle && m_iSeason == right.m_iSeason &&
@@ -204,6 +206,7 @@ void CPVRRecording::FillAddonData(PVR_RECORDING& recording) const
       recTime - CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_iPVRTimeCorrection;
   recording.iDuration = GetDuration();
   recording.iPriority = Priority();
+  recording.iSortablePriority = SortablePrioirity();
   recording.iLifetime = LifeTime();
   recording.iGenreType = GenreType();
   recording.iGenreSubType = GenreSubType();
@@ -239,6 +242,7 @@ void CPVRRecording::Serialize(CVariant& value) const
   value["channeluid"] = m_iChannelUid;
   value["radio"] = m_bRadio;
   value["genre"] = m_genre;
+  value["sortablepriority"] = m_iSortablePriority;
 
   if (!value.isMember("art"))
     value["art"] = CVariant(CVariant::VariantTypeObject);
@@ -268,6 +272,7 @@ void CPVRRecording::Reset()
   m_strChannelName.clear();
   m_strDirectory.clear();
   m_iPriority = -1;
+  m_iSortablePriority = -1;
   m_iLifetime = -1;
   m_strFileNameAndPath.clear();
   m_bGotMetaData = false;
@@ -451,6 +456,7 @@ void CPVRRecording::Update(const CPVRRecording& tag, const CPVRClient& client)
   SetPremiered(tag.GetPremiered());
   m_recordingTime = tag.m_recordingTime;
   m_iPriority = tag.m_iPriority;
+  m_iSortablePriority = tag.m_iSortablePriority;
   m_iLifetime = tag.m_iLifetime;
   m_strDirectory = tag.m_strDirectory;
   m_strPlot = tag.m_strPlot;

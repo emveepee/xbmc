@@ -63,7 +63,8 @@ namespace
       "iPrority           integer,"
       "iLifetime          integer,"
       "iMaxRecordings     integer,"
-      "iRecordingGroup    integer"
+      "iRecordingGroup    integer,"
+      "iSortablePriority  integer"
   ")";
 
   static const std::string sqlCreateProvidersTable =
@@ -360,6 +361,12 @@ void CPVRDatabase::UpdateTables(int iVersion)
     // Setup initial local order, not perfect but at least unique across all groups.
     // Should mostly be the order the groups appeared from backend or were created by user locally.
     m_pDS->exec("UPDATE channelgroups SET iPosition = idGroup");
+  }
+
+  if (iVersion < 44)
+  {
+    m_pDS->exec("ALTER TABLE timers ADD iSortablePriority integer");
+    m_pDS->exec("UPDATE timers SET iSortablePriority = 0");
   }
 }
 
@@ -1137,6 +1144,7 @@ std::vector<std::shared_ptr<CPVRTimerInfoTag>> CPVRDatabase::GetTimers(
         newTag->m_bFullTextEpgSearch = m_pDS->fv("bFullTextEpgSearch").get_asBool();
         newTag->m_iPreventDupEpisodes = m_pDS->fv("iPreventDuplicates").get_asInt();
         newTag->m_iPriority = m_pDS->fv("iPrority").get_asInt();
+        newTag->m_iSortablePriority = m_pDS->fv("iSortablePriority").get_asInt();
         newTag->m_iLifetime = m_pDS->fv("iLifetime").get_asInt();
         newTag->m_iMaxRecordings = m_pDS->fv("iMaxRecordings").get_asInt();
         newTag->m_iRecordingGroup = m_pDS->fv("iRecordingGroup").get_asInt();
@@ -1166,22 +1174,22 @@ bool CPVRDatabase::Persist(CPVRTimerInfoTag& timer)
     strQuery = PrepareSQL("INSERT INTO timers "
                           "(iParentClientIndex, iClientId, iTimerType, iState, sTitle, iClientChannelUid, sSeriesLink, sStartTime,"
                           " bStartAnyTime, sEndTime, bEndAnyTime, sFirstDay, iWeekdays, iEpgUid, iMarginStart, iMarginEnd,"
-                          " sEpgSearchString, bFullTextEpgSearch, iPreventDuplicates, iPrority, iLifetime, iMaxRecordings, iRecordingGroup) "
-                          "VALUES (%i, %i, %u, %i, '%s', %i, '%s', '%s', %i, '%s', %i, '%s', %i, %u, %i, %i, '%s', %i, %i, %i, %i, %i, %i);",
+                          " sEpgSearchString, bFullTextEpgSearch, iPreventDuplicates, iPrority, iLifetime, iMaxRecordings, iRecordingGroup, iSortablePriority) "
+                          "VALUES (%i, %i, %u, %i, '%s', %i, '%s', '%s', %i, '%s', %i, '%s', %i, %u, %i, %i, '%s', %i, %i, %i, %i, %i, %i, %i);",
                           timer.m_iParentClientIndex, timer.m_iClientId, timer.GetTimerType()->GetTypeId(), timer.m_state,
                           timer.Title().c_str(), timer.m_iClientChannelUid, timer.SeriesLink().c_str(),
                           timer.StartAsUTC().GetAsDBDateTime().c_str(), timer.m_bStartAnyTime ? 1 : 0,
                           timer.EndAsUTC().GetAsDBDateTime().c_str(), timer.m_bEndAnyTime ? 1 : 0,
                           timer.FirstDayAsUTC().GetAsDBDateTime().c_str(), timer.m_iWeekdays, timer.UniqueBroadcastID(),
                           timer.m_iMarginStart, timer.m_iMarginEnd, timer.m_strEpgSearchString.c_str(), timer.m_bFullTextEpgSearch ? 1 : 0,
-                          timer.m_iPreventDupEpisodes, timer.m_iPriority, timer.m_iLifetime, timer.m_iMaxRecordings, timer.m_iRecordingGroup);
+                          timer.m_iPreventDupEpisodes, timer.m_iPriority, timer.m_iLifetime, timer.m_iMaxRecordings, timer.m_iRecordingGroup, timer.m_iSortablePriority);
   else
     strQuery = PrepareSQL("REPLACE INTO timers "
                           "(iClientIndex,"
                           " iParentClientIndex, iClientId, iTimerType, iState, sTitle, iClientChannelUid, sSeriesLink, sStartTime,"
                           " bStartAnyTime, sEndTime, bEndAnyTime, sFirstDay, iWeekdays, iEpgUid, iMarginStart, iMarginEnd,"
-                          " sEpgSearchString, bFullTextEpgSearch, iPreventDuplicates, iPrority, iLifetime, iMaxRecordings, iRecordingGroup) "
-                          "VALUES (%i, %i, %i, %u, %i, '%s', %i, '%s', '%s', %i, '%s', %i, '%s', %i, %u, %i, %i, '%s', %i, %i, %i, %i, %i, %i);",
+                          " sEpgSearchString, bFullTextEpgSearch, iPreventDuplicates, iPrority, iLifetime, iMaxRecordings, iRecordingGroup, iSortablePriority) "
+                          "VALUES (%i, %i, %i, %u, %i, '%s', %i, '%s', '%s', %i, '%s', %i, '%s', %i, %u, %i, %i, '%s', %i, %i, %i, %i, %i, %i, %i);",
                           -timer.m_iClientIndex,
                           timer.m_iParentClientIndex, timer.m_iClientId, timer.GetTimerType()->GetTypeId(), timer.m_state,
                           timer.Title().c_str(), timer.m_iClientChannelUid, timer.SeriesLink().c_str(),
@@ -1189,7 +1197,7 @@ bool CPVRDatabase::Persist(CPVRTimerInfoTag& timer)
                           timer.EndAsUTC().GetAsDBDateTime().c_str(), timer.m_bEndAnyTime ? 1 : 0,
                           timer.FirstDayAsUTC().GetAsDBDateTime().c_str(), timer.m_iWeekdays, timer.UniqueBroadcastID(),
                           timer.m_iMarginStart, timer.m_iMarginEnd, timer.m_strEpgSearchString.c_str(), timer.m_bFullTextEpgSearch ? 1 : 0,
-                          timer.m_iPreventDupEpisodes, timer.m_iPriority, timer.m_iLifetime, timer.m_iMaxRecordings, timer.m_iRecordingGroup);
+                          timer.m_iPreventDupEpisodes, timer.m_iPriority, timer.m_iLifetime, timer.m_iMaxRecordings, timer.m_iRecordingGroup, timer.m_iSortablePriority);
 
   bool bReturn = ExecuteQuery(strQuery);
 

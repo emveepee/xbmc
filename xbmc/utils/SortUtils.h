@@ -170,6 +170,9 @@ typedef enum
   /// __59__ : Sort by user preference            <em>(String: <b><c>UserPreference</c></b>)</em>
   /// @skinning_v20 <b>SortByUserPreference</b> New sort method added.
   SortByUserPreference,
+  SortByTimerRulesPriority,
+  /// __60__ : Sort by timer rules priority       <em>(String: <b><c>TimerRulesPriority</c></b>)</em>
+  /// @skinning_v21 <b>SortByTimerRulesPriority</b> New sort method added.
 } SortBy;
 ///@}
 

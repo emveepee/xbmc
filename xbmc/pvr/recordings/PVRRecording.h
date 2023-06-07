@@ -292,6 +292,12 @@ public:
    */
   int Priority() const { return m_iPriority; }
 
+    /*!
+   * @brief Get the sortable priority for this recording
+   * @return the priority
+   */
+  int SortablePrioirity() const { return m_iSortablePriority; }
+
   /*!
    * @brief Get the lifetime for this recording
    * @return the lifetime
@@ -511,6 +517,7 @@ private:
   std::string m_strRecordingId; /*!< unique ID of the recording on the client */
   std::string m_strChannelName; /*!< name of the channel this was recorded from */
   int m_iPriority; /*!< priority of this recording */
+  int m_iSortablePriority; /*!< sortable priority of this recording */
   int m_iLifetime; /*!< lifetime of this recording */
   std::string m_strDirectory; /*!< directory of this recording on the client */
   unsigned int m_iRecordingId; /*!< id that won't change while xbmc is running */

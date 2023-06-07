@@ -473,6 +473,11 @@ std::string ByUserPreference(SortAttribute attributes, const SortItem& values)
   return values.at(FieldUserPreference).asString();
 }
 
+std::string ByTimerRulesPriority(SortAttribute attributes, const SortItem& values)
+{
+  return StringUtils::Format("{:010}", 1000000000 - (int)values.at(FieldTimerRulesPriority).asInteger());
+}
+
 std::string ByDateTaken(SortAttribute attributes, const SortItem &values)
 {
   return values.at(FieldDateTaken).asString();
@@ -686,6 +691,7 @@ std::map<SortBy, SortUtils::SortPreparator> fillPreparators()
   preparators[SortByClientChannelOrder]       = ByClientChannelOrder;
   preparators[SortByProvider]                 = ByProvider;
   preparators[SortByUserPreference]           = ByUserPreference;
+  preparators[SortByTimerRulesPriority]       = ByTimerRulesPriority;
   preparators[SortByDateTaken]                = ByDateTaken;
   preparators[SortByRelevance]                = ByRelevance;
   preparators[SortByInstallDate]              = ByInstallDate;
@@ -781,6 +787,7 @@ std::map<SortBy, Fields> fillSortingFields()
   sortingFields[SortByClientChannelOrder].insert(FieldClientChannelOrder);
   sortingFields[SortByProvider].insert(FieldProvider);
   sortingFields[SortByUserPreference].insert(FieldUserPreference);
+  sortingFields[SortByTimerRulesPriority].insert(FieldTimerRulesPriority);
   sortingFields[SortByDateTaken].insert(FieldDateTaken);
   sortingFields[SortByRelevance].insert(FieldRelevance);
   sortingFields[SortByInstallDate].insert(FieldInstallDate);
@@ -1196,6 +1203,7 @@ const sort_map table[] = {
   { SortByChannel,                  SORT_METHOD_CLIENT_CHANNEL_ORDER,         SortAttributeNone,          19315 },
   { SortByProvider,                 SORT_METHOD_PROVIDER,                     SortAttributeNone,          19348 },
   { SortByUserPreference,           SORT_METHOD_USER_PREFERENCE,              SortAttributeNone,          19349 },
+  { SortByTimerRulesPriority,       SORT_METHOD_TIMER_RULES_PRIORITY,         SortAttributeNone,          19082 },
   { SortByDateTaken,                SORT_METHOD_DATE_TAKEN,                   SortAttributeIgnoreFolders, 577 },
   { SortByNone,                     SORT_METHOD_NONE,                         SortAttributeNone,          16018 },
   { SortByTotalDiscs,               SORT_METHOD_TOTAL_DISCS,                  SortAttributeNone,          38077 },
@@ -1348,6 +1356,7 @@ const std::map<std::string, SortBy> sortMethods = {
     {"clientchannelorder", SortByClientChannelOrder},
     {"provider", SortByProvider},
     {"userpreference", SortByUserPreference},
+    {"sortablepriority", SortByTimerRulesPriority},
     {"datetaken", SortByDateTaken},
     {"userrating", SortByUserRating},
     {"installdate", SortByInstallDate},
