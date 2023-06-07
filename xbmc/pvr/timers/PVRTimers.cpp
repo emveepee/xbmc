@@ -246,6 +246,10 @@ bool CPVRTimers::UpdateEntries(const CPVRTimersContainer& timers,
       {
         /* if it's present, update the current tag */
         bool bStateChanged(existingTimer->State() != timersEntry->State());
+
+        if (existingTimer->GetSortablePriority() != timersEntry->GetSortablePriority())
+          bAddedOrDeleted = true;
+
         if (existingTimer->UpdateEntry(timersEntry))
         {
           bChanged = true;
