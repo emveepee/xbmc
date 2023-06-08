@@ -475,7 +475,7 @@ std::string ByUserPreference(SortAttribute attributes, const SortItem& values)
 
 std::string ByTimerSortablePriority(SortAttribute attributes, const SortItem& values)
 {
-  return StringUtils::Format("{:010}", 1000000000 - (int)values.at(FieldTimerSortablePriority).asInteger());
+  return values.at(FieldTimerSortablePriority).asString();
 }
 
 std::string ByDateTaken(SortAttribute attributes, const SortItem &values)
