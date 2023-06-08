@@ -768,10 +768,10 @@ void CFileItem::ToSortable(SortItem &sortable, Field field) const
     case FieldTitle:
       sortable[FieldTitle] = m_strTitle;
       break;
-    case FieldTimerRulesPriority:
+    case FieldTimerSortablePriority:
       if (HasPVRTimerInfoTag())
       {
-        sortable[FieldTimerRulesPriority] = m_pvrTimerInfoTag->GetSortablePriority();
+        sortable[FieldTimerSortablePriority] = m_pvrTimerInfoTag->GetSortablePriority();
         break;
       }
     // If there's ever a need to convert more properties from CGUIListItem it might be

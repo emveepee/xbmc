@@ -142,7 +142,7 @@ CGUIViewStateWindowPVRTimers::CGUIViewStateWindowPVRTimers(const int windowId,
     {
       if (item->GetPVRTimerInfoTag()->GetSortablePriority() >= 0)
       {
-        AddSortMethod(SortByTimerRulesPriority, static_cast<SortAttribute>(sortAttributes),
+        AddSortMethod(SortByTimerSortablePriority, static_cast<SortAttribute>(sortAttributes),
                       19082, // "Priority"
                       LABEL_MASKS("%L", "%d", "%L", "")); // Filename, empty | Foldername, empty
         break;

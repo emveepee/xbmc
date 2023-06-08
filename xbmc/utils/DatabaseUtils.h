@@ -150,7 +150,7 @@ typedef enum
   FieldHdrType,
   FieldProvider,
   FieldUserPreference,
-  FieldTimerRulesPriority,
+  FieldTimerSortablePriority,
   FieldMax
 } Field;
 
