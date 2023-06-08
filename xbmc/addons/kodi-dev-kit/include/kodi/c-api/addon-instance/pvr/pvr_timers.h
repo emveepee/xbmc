@@ -79,8 +79,18 @@ extern "C"
 #define PVR_TIMER_VALUE_NOT_AVAILABLE -1
   //----------------------------------------------------------------------------
 
+  //============================================================================
+  /// @brief Positive value indicates that a timer or timer rules has a sortable.
+  /// priority for GUI display
+  ///
   ///@}
   //----------------------------------------------------------------------------
+
+  #define TIMER_SORTABLE_PRIORITY_NONE -1
+
+  ///@}
+  //----------------------------------------------------------------------------
+
 
   //============================================================================
   /// @defgroup cpp_kodi_addon_pvr_Defs_Timer_PVR_TIMER_TYPES enum PVR_TIMER_TYPES

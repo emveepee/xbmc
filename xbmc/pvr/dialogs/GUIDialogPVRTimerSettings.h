@@ -10,6 +10,7 @@
 
 #include "XBDateTime.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channels.h" // PVR_CHANNEL_INVALID_UID
+#include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_timers.h" // TIMER_SORTABLE_PRIORITY_NONE
 #include "settings/SettingConditions.h"
 #include "settings/dialogs/GUIDialogSettingsManualBase.h"
 #include "settings/lib/SettingDependency.h"
@@ -188,7 +189,7 @@ private:
   unsigned int m_iMarginStart = 0;
   unsigned int m_iMarginEnd = 0;
   int m_iPriority = 0;
-  int m_iSortablePriority = -1;
+  int m_iSortablePriority = TIMER_SORTABLE_PRIORITY_NONE;
   int m_iLifetime = 0;
   int m_iMaxRecordings = 0;
   std::string m_strDirectory;

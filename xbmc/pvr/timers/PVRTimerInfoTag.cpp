@@ -43,7 +43,7 @@ CPVRTimerInfoTag::CPVRTimerInfoTag(bool bRadio /* = false */)
     m_iParentClientIndex(PVR_TIMER_NO_PARENT),
     m_iClientChannelUid(PVR_CHANNEL_INVALID_UID),
     m_iPriority(DEFAULT_RECORDING_PRIORITY),
-    m_iSortablePriority(DEFAULT_RECORDING_PRIORITY),
+    m_iSortablePriority(TIMER_SORTABLE_PRIORITY_NONE),
     m_iLifetime(DEFAULT_RECORDING_LIFETIME),
     m_iPreventDupEpisodes(DEFAULT_RECORDING_DUPLICATEHANDLING),
     m_bIsRadio(bRadio),

@@ -140,7 +140,7 @@ CGUIViewStateWindowPVRTimers::CGUIViewStateWindowPVRTimers(const int windowId,
   {
     if (item->HasPVRTimerInfoTag())
     {
-      if (item->GetPVRTimerInfoTag()->GetSortablePriority() >= 0)
+      if (item->GetPVRTimerInfoTag()->GetSortablePriority() > TIMER_SORTABLE_PRIORITY_NONE)
       {
         AddSortMethod(SortByTimerSortablePriority, static_cast<SortAttribute>(sortAttributes),
                       19082, // "Priority"
